@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# libs
+helloworld.pb
+
+# vscode
+.vscode

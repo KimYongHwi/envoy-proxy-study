@@ -1,0 +1,19 @@
+
+spring:
+  profiles:
+    active: dev
+
+server:
+  port: 8000
+
+---
+spring:
+  profiles: dev
+  cloud:
+    gateway:
+      routes:
+        - id: example
+          uri: http://envoy-proxy:10000
+          order: 1
+          predicates:
+            - Path=/helloworld/**

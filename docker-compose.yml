@@ -1,0 +1,54 @@
+version: '3'
+services:
+  gateway:
+    build:
+      context: ./
+      dockerfile: gateway.Dockerfile
+    container_name: gateway
+    networks: 
+      - backend
+    links:
+      - envoy-proxy
+    ports:
+      - 8000:8000
+
+  envoy-proxy:
+    image: envoyproxy/envoy-dev:0c6523c0925d260de41d89002044d0d6271550d0
+    container_name: envoy-proxy
+    volumes:
+      - ./envoy-config/envoy.yml:/etc/envoy/envoy.yaml
+      - ./helloworld.pb:/etc/envoy/helloworld.pb
+    ports:
+      - 9901:9901
+      - 10000:10000
+    networks: 
+      - backend
+    links:
+      - grpc-api
+
+  grpc-api:
+    build:
+      context: ./
+      dockerfile: api.Dockerfile
+    container_name: grpc-api
+    command: >
+      sh -c
+      "npm rebuild && npm run start"
+    volumes:
+      - ./api/src:/home/node/api/src
+      - ./api/tsconfig.json:/home/node/api/tsconfig.json
+      - ./idl:/home/node/idl
+      - ./api/package.json:/home/node/api/package.json
+    networks: 
+      - backend
+    ports:
+      - 11000:11000
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      PORT: 11000
+      TZ: Asia/Seoul
+
+networks:
+  backend:
+    driver: "bridge"

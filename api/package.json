@@ -1,0 +1,36 @@
+{
+  "name": "envoy-proxy-study",
+  "version": "1.0.0",
+  "description": "HTTP/JSON을 gRPC로 트랜스코딩 하기 위한 envoy proxy sample 입니다.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -e ts -x ts-node -r tsconfig-paths/register src/index.ts",
+    "docker:start": "docker-compose down -v && docker-compose up -d && docker logs -f grpc-api",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KimYongHwi/envoy-proxy-study.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KimYongHwi/envoy-proxy-study/issues"
+  },
+  "homepage": "https://github.com/KimYongHwi/envoy-proxy-study#readme",
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.9.6"
+  },
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.5",
+    "@malijs/logger": "^0.5.0",
+    "glob": "^7.1.6",
+    "grpc": "^1.24.3",
+    "mali": "^0.21.0"
+  }
+}
